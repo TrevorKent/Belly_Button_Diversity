@@ -1,22 +1,12 @@
 function buildMetadata(sample) {
-
-    // @TODO: Complete the following function that builds the metadata panel
-
-    // Use `d3.json` to fetch the metadata for a sample
-    d3.csv("sample-data.csv", function(error, data) {
-                data.forEach(function(d) {
-                    d.date = parseDate(d['Date Purchased']);
+    d3.json(`/metadata/${sample}`).then((data) => {
+                var PANEL = d3.select("#sample-metadata");
+                PANEL.html(""); // clear existing data
+                Object.entries(data).forEach(([key, value]) => {
+                    PANEL.append("h6").text(`${key}: ${value}`);
                 });
-                // Use d3 to select the panel with id of `#sample-metadata`
 
-                // Use `.html("") to clear any existing metadata
-
-                // Use `Object.entries` to add each key and value pair to the panel
-                // Hint: Inside the loop, you will need to use d3 to append new
-                // tags for each key-value in the metadata.
-
-                // BONUS: Build the Gauge Chart
-                // buildGauge(data.WFREQ);
+                buildGauge(data.WFREQ);
             }
 
             function buildCharts(sample) {
@@ -24,10 +14,46 @@ function buildMetadata(sample) {
                 // @TODO: Use `d3.json` to fetch the sample data for the plots
 
                 // @TODO: Build a Bubble Chart using the sample data
+                var trace1 = {
+                    x: [1, 2, 3, 4],
+                    y: [10, 11, 12, 13],
+                    mode: 'markers',
+                    marker: {
+                        size: [40, 60, 80, 100]
+                    }
+                };
+
+                var data = [trace1];
+
+                var layout = {
+                    title: 'Marker Size',
+                    showlegend: false,
+                    height: 600,
+                    width: 600
+                };
+
+                Plotly.newPlot('myDiv', data, layout);
+
+
 
                 // @TODO: Build a Pie Chart
                 // HINT: You will need to use slice() to grab the top 10 sample_values,
                 // otu_ids, and labels (10 each).
+                // basic pie chart (still needs slicing)
+                var data = [{
+                    values: [],
+                    labels: [],
+                    type: 'pie'
+                }];
+
+                var layout = {
+                    height: 400,
+                    width: 500
+                };
+
+                Plotly.newPlot('myDiv', data, layout); // verify myDiv
+
+
             }
 
             function init() {
