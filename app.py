@@ -42,6 +42,7 @@ def names():
     """Return a list of sample names."""
 
     # Use Pandas to perform the sql query
+    # REVIEW!
     stmt = db.session.query(Samples).statement
     df = pd.read_sql_query(stmt, db.session.bind)
 
@@ -98,4 +99,4 @@ def samples(sample):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
